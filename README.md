@@ -4,6 +4,8 @@ Simple python script to download and plot the [quicklook Disturbance Storm Time 
 
 
 The real time data file is stored at https://wdc.kugi.kyoto-u.ac.jp/dst_realtime/presentmonth/dst2511.for.request
+with `2511` in the file name indicating the file is for November 2025.
+
 
 The script works by 
 

@@ -12,8 +12,8 @@ import numpy as np
 import datetime as dt
 
 # CONSTANTS
-yyyy = dt.datetime.now().year
-mm=dt.datetime.now().month
+yyyy = dt.datetime.now(dt.timezone.utc).year
+mm=dt.datetime.now(dt.timezone.utc).month
 yy = yyyy - int(yyyy/100)*100
 hours_perday = 24
 number_length = 4
@@ -32,7 +32,9 @@ def main():
 
     # make plot
     plt.figure()
-    df.dst.plot()
+    # df.dropna().dst.plot()
+    df.dst.plot(ls='-', marker='')
+    plt.grid(which='both', axis='both')
     plt.xlabel("Universal Date / Time")
     plt.ylabel("Dst [nT]")
     plt.title(f"Quicklook Dst from WDC Kyoto for {yyyy}/{mm}")
@@ -73,15 +75,13 @@ def processDstFile(dst_filepath):
             date_str.append(line[3:7] + line[8:10])
             data_str.append(line[20:-4])
 
-    data_matrix = np.zeros((len(data_str),hours_perday))
-
     for i,text in enumerate(data_str):
         df = pd.DataFrame()
-        chunks = np.array([int(text[j:j+number_length]) for j in range(0, len(text), number_length)])
-        data_matrix[i,:] = chunks
-        start_time = dt.datetime.strptime('20'+date_str[i], '%Y%m%d')
+        start_time = dt.datetime.strptime(str(int(yyyy/100))+date_str[i], '%Y%m%d')
         df['pdate'] = pd.date_range(start=start_time, periods=hours_perday, freq='1H')
-        df['dst'] = chunks
+        df['dst'] = np.array(
+            [int(text[j:j+number_length]) for j in range(0, len(text), number_length)]
+        )
         df_list.append(df)
 
     df = pd.concat(df_list)
