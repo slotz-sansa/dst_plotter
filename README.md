@@ -7,9 +7,10 @@ The real time data file is stored at https://wdc.kugi.kyoto-u.ac.jp/dst_realtime
 
 The script works by 
 
-1. downloading the realtime data file
-1. processing the data to a Pandas `DataFrame`
-1. creating a plot of the latest Dst
+1. Downloading the realtime data file using `requests` library
+1. Processing the data to a Pandas `DataFrame`
+1. Creating a plot of the latest Dst. File save in `./currentplot.png`
 
+![Plot of current month.](currentplot.png)
 
 

@@ -71,6 +71,7 @@ def main():
     plt.ylabel("Dst [nT]")
     plt.title(f"Quicklook Dst from WDC Kyoto for {yyyy}/{mm}")
     plt.tight_layout()
+    plt.savefig("currentplot.png")
 
     return df
 
