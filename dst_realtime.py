@@ -39,13 +39,17 @@ def main():
     plt.ylabel("Dst [nT]")
     plt.title(f"Quicklook Dst from WDC Kyoto for {yyyy}/{mm}")
     plt.tight_layout()
-    plt.savefig("currentplot.png")
 
     return df
 
 
 def getfile(url, local_path):
+    """Get file from a URL and save it
 
+    Args:
+        url (_type_): Path to file.
+        local_path (_type_): Path to save the file locally.
+    """
     import requests
 
     print(f"Downloading file from {url}")
@@ -61,6 +65,14 @@ def getfile(url, local_path):
 
 
 def processDstFile(dst_filepath):
+    """Process the DST quicklook file and return a dataframe
+
+    Args:
+        dst_filepath (_type_): Path to local DST file.
+
+    Returns:
+        Pandas DataFrame : Hourly DST 
+    """    
 
     with open(dst_filepath, "r") as file:
         lines = file.readlines()
@@ -89,3 +101,12 @@ def processDstFile(dst_filepath):
     df.dst.mask(df.dst==na_val, inplace=True)
 
     return df 
+
+
+if __name__ == "__main__":
+
+    img_file = "currentplot.png"
+    df = main()
+    print(f"Image saved to {img_file}")
+    plt.savefig(img_file)
+    print("Done")
